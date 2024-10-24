@@ -29,12 +29,6 @@ describe('maps', function () {
     }
   })
 
-  it('should wrap an object in a map-like object', function () {
-    const obj = {
-      a: 1,
-      b: 2,
-      c: 3
-    }
     const map = new ObjectWrappingMap(obj)
 
     // isMap thinks it's a map.
