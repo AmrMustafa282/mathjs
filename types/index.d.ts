@@ -7,10 +7,10 @@ export = math
 type NoLiteralType<T> = T extends number
   ? number
   : T extends string
-  ? string
-  : T extends boolean
-  ? boolean
-  : T
+    ? string
+    : T extends boolean
+      ? boolean
+      : T
 
 declare namespace math {
   type MathNumericType = number | BigNumber | Fraction | Complex
@@ -175,7 +175,7 @@ declare namespace math {
   interface AccessorNodeCtor {
     new <TObject extends MathNode = MathNode>(
       object: TObject,
-      index: IndexNode
+      index: IndexNode,
     ): AccessorNode<TObject>
   }
 
@@ -186,7 +186,7 @@ declare namespace math {
   }
   interface ArrayNodeCtor {
     new <TItems extends MathNode[] = MathNode[]>(
-      items: MathNode[]
+      items: MathNode[],
     ): ArrayNode<TItems>
   }
 
@@ -202,12 +202,12 @@ declare namespace math {
   interface AssignmentNodeCtor {
     new <TValue extends MathNode = MathNode>(
       object: SymbolNode,
-      value: TValue
+      value: TValue,
     ): AssignmentNode<TValue>
     new <TValue extends MathNode = MathNode>(
       object: SymbolNode | AccessorNode,
       index: IndexNode,
-      value: TValue
+      value: TValue,
     ): AssignmentNode<TValue>
   }
 
@@ -218,14 +218,14 @@ declare namespace math {
   }
   interface BlockNodeCtor {
     new <TNode extends MathNode = MathNode>(
-      arr: Array<{ node: TNode } | { node: TNode; visible: boolean }>
+      arr: Array<{ node: TNode } | { node: TNode; visible: boolean }>,
     ): BlockNode
   }
 
   interface ConditionalNode<
     TCond extends MathNode = MathNode,
     TTrueNode extends MathNode = MathNode,
-    TFalseNode extends MathNode = MathNode
+    TFalseNode extends MathNode = MathNode,
   > extends MathNode {
     type: 'ConditionalNode'
     isConditionalNode: boolean
@@ -237,11 +237,11 @@ declare namespace math {
     new <
       TCond extends MathNode = MathNode,
       TTrueNode extends MathNode = MathNode,
-      TFalseNode extends MathNode = MathNode
+      TFalseNode extends MathNode = MathNode,
     >(
       condition: TCond,
       trueExpr: TTrueNode,
-      falseExpr: TFalseNode
+      falseExpr: TFalseNode,
     ): ConditionalNode
   }
 
@@ -255,7 +255,7 @@ declare namespace math {
 
   interface ConstantNodeCtor {
     new <TValue extends string | number = string>(
-      value: TValue
+      value: TValue,
     ): ConstantNode<TValue>
   }
 
@@ -271,13 +271,13 @@ declare namespace math {
     new <TExpr extends MathNode = MathNode>(
       name: string,
       params: string[],
-      expr: TExpr
+      expr: TExpr,
     ): FunctionAssignmentNode<TExpr>
   }
 
   interface FunctionNode<
     TFn = SymbolNode,
-    TArgs extends MathNode[] = MathNode[]
+    TArgs extends MathNode[] = MathNode[],
   > extends MathNode {
     type: 'FunctionNode'
     isFunctionNode: true
@@ -287,7 +287,7 @@ declare namespace math {
   interface FunctionNodeCtor {
     new <TFn = SymbolNode, TArgs extends MathNode[] = MathNode[]>(
       fn: TFn,
-      args: TArgs
+      args: TArgs,
     ): FunctionNode<TFn, TArgs>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onUndefinedFunction: (name: string) => any
@@ -303,12 +303,12 @@ declare namespace math {
     new <TDims extends MathNode[] = MathNode[]>(dimensions: TDims): IndexNode
     new <TDims extends MathNode[] = MathNode[]>(
       dimensions: TDims,
-      dotNotation: boolean
+      dotNotation: boolean,
     ): IndexNode<TDims>
   }
 
   interface ObjectNode<
-    TProps extends Record<string, MathNode> = Record<string, MathNode>
+    TProps extends Record<string, MathNode> = Record<string, MathNode>,
   > extends MathNode {
     type: 'ObjectNode'
     isObjectNode: true
@@ -316,7 +316,7 @@ declare namespace math {
   }
   interface ObjectNodeCtor {
     new <TProps extends Record<string, MathNode> = Record<string, MathNode>>(
-      properties: TProps
+      properties: TProps,
     ): ObjectNode<TProps>
   }
 
@@ -359,7 +359,7 @@ declare namespace math {
   interface OperatorNode<
     TOp extends OperatorNodeMap[TFn] = never,
     TFn extends OperatorNodeFn = never,
-    TArgs extends MathNode[] = MathNode[]
+    TArgs extends MathNode[] = MathNode[],
   > extends MathNode {
     type: 'OperatorNode'
     isOperatorNode: true
@@ -375,12 +375,12 @@ declare namespace math {
     new <
       TOp extends OperatorNodeMap[TFn],
       TFn extends OperatorNodeFn,
-      TArgs extends MathNode[]
+      TArgs extends MathNode[],
     >(
       op: TOp,
       fn: TFn,
       args: TArgs,
-      implicit?: boolean
+      implicit?: boolean,
     ): OperatorNode<TOp, TFn, TArgs>
   }
   interface ParenthesisNode<TContent extends MathNode = MathNode>
@@ -391,14 +391,14 @@ declare namespace math {
   }
   interface ParenthesisNodeCtor {
     new <TContent extends MathNode>(
-      content: TContent
+      content: TContent,
     ): ParenthesisNode<TContent>
   }
 
   interface RangeNode<
     TStart extends MathNode = MathNode,
     TEnd extends MathNode = MathNode,
-    TStep extends MathNode = MathNode
+    TStep extends MathNode = MathNode,
   > extends MathNode {
     type: 'RangeNode'
     isRangeNode: true
@@ -410,11 +410,11 @@ declare namespace math {
     new <
       TStart extends MathNode = MathNode,
       TEnd extends MathNode = MathNode,
-      TStep extends MathNode = MathNode
+      TStep extends MathNode = MathNode,
     >(
       start: TStart,
       end: TEnd,
-      step?: TStep
+      step?: TStep,
     ): RangeNode<TStart, TEnd, TStep>
   }
 
@@ -428,7 +428,7 @@ declare namespace math {
   interface RelationalNodeCtor {
     new <TParams extends MathNode[] = MathNode[]>(
       conditionals: string[],
-      params: TParams
+      params: TParams,
     ): RelationalNode<TParams>
   }
 
@@ -569,7 +569,7 @@ declare namespace math {
     typed: (
       name: string,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      signatures: Record<string, (...args: any[]) => any>
+      signatures: Record<string, (...args: any[]) => any>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => (...args: any[]) => any
 
@@ -585,7 +585,7 @@ declare namespace math {
      * @returns The created bignumber
      */
     bignumber(
-      x?: number | string | Fraction | BigNumber | boolean | Fraction | null
+      x?: number | string | Fraction | BigNumber | boolean | Fraction | null,
     ): BigNumber
     bignumber<T extends MathCollection>(x: T): T
 
@@ -649,7 +649,7 @@ declare namespace math {
     createUnit(
       name: string,
       definition?: string | UnitDefinition | Unit,
-      options?: CreateUnitOptions
+      options?: CreateUnitOptions,
     ): Unit
     /**
      * Create a user-defined unit and register it with the Unit type.
@@ -659,7 +659,7 @@ declare namespace math {
      */
     createUnit(
       units: Record<string, string | UnitDefinition | Unit>,
-      options?: CreateUnitOptions
+      options?: CreateUnitOptions,
     ): Unit
 
     /**
@@ -669,7 +669,7 @@ declare namespace math {
      * @returns Returns a fraction
      */
     fraction(
-      value: number | string | BigNumber | Fraction | FractionDefinition
+      value: number | string | BigNumber | Fraction | FractionDefinition,
     ): Fraction
     fraction(values: MathCollection): MathCollection
     /**
@@ -708,7 +708,7 @@ declare namespace math {
     matrix(
       data: MathCollection | string[],
       format?: 'sparse' | 'dense',
-      dataType?: string
+      dataType?: string,
     ): Matrix
 
     /**
@@ -718,7 +718,7 @@ declare namespace math {
      * @returns The created number
      */
     number(
-      value?: string | number | BigNumber | Fraction | boolean | Unit | null
+      value?: string | number | BigNumber | Fraction | boolean | Unit | null,
     ): number
     number(value?: MathCollection): number | MathCollection
     /**
@@ -805,12 +805,12 @@ declare namespace math {
      */
     evaluate(
       expr: MathExpression | Matrix,
-      scope?: object
+      scope?: object,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): any
     evaluate(
       expr: MathExpression[],
-      scope?: object
+      scope?: object,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): any[]
 
@@ -849,7 +849,7 @@ declare namespace math {
     derivative(
       expr: MathNode | string,
       variable: MathNode | string,
-      options?: { simplify: boolean }
+      options?: { simplify: boolean },
     ): MathNode
 
     /**
@@ -889,14 +889,14 @@ declare namespace math {
       A: Matrix,
       b: Matrix | MathArray,
       order?: number,
-      threshold?: number
+      threshold?: number,
     ): Matrix
 
     lusolve(
       A: MathArray,
       b: Matrix | MathArray,
       order?: number,
-      threshold?: number
+      threshold?: number,
     ): MathArray
 
     lusolve(A: LUDecomposition, b: Matrix | MathArray): Matrix
@@ -914,7 +914,7 @@ declare namespace math {
       constantCoeff: number | Complex,
       linearCoeff: number | Complex,
       quadraticCoeff?: number | Complex,
-      cubicCoeff?: number | Complex
+      cubicCoeff?: number | Complex,
     ): (number | Complex)[]
 
     /**
@@ -930,7 +930,7 @@ declare namespace math {
     rationalize(
       expr: MathNode | string,
       optional?: object | boolean,
-      detailed?: false
+      detailed?: false,
     ): MathNode
     /**
      * Transform a rationalizable expression in a rational fraction. If
@@ -947,7 +947,7 @@ declare namespace math {
     rationalize(
       expr: MathNode | string,
       optional?: object | boolean,
-      detailed?: true
+      detailed?: true,
     ): {
       expression: MathNode | string
       variables: string[]
@@ -969,7 +969,7 @@ declare namespace math {
 
     simplifyConstant(
       expr: MathNode | string,
-      options?: SimplifyOptions
+      options?: SimplifyOptions,
     ): MathNode
     simplifyCore(expr: MathNode | string, options?: SimplifyOptions): MathNode
 
@@ -983,7 +983,7 @@ declare namespace math {
     resolve(
       node: (MathNode | string)[],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      scope?: Record<string, any>
+      scope?: Record<string, any>,
     ): MathNode[]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolve(node: Matrix, scope?: Record<string, any>): Matrix
@@ -1073,7 +1073,7 @@ declare namespace math {
      */
     ceil<T extends MathNumericType | MathCollection>(
       x: T,
-      n?: number | BigNumber
+      n?: number | BigNumber,
     ): NoLiteralType<T>
     ceil<U extends MathCollection>(x: MathNumericType, n: U): U
 
@@ -1086,7 +1086,7 @@ declare namespace math {
      */
     fix<T extends MathNumericType | MathCollection>(
       x: T,
-      n?: number | BigNumber
+      n?: number | BigNumber,
     ): NoLiteralType<T>
     fix<U extends MathCollection>(x: MathNumericType, n: U): U
 
@@ -1099,7 +1099,7 @@ declare namespace math {
      */
     floor<T extends MathNumericType | MathCollection>(
       x: T,
-      n?: number | BigNumber
+      n?: number | BigNumber,
     ): NoLiteralType<T>
     floor<U extends MathCollection>(x: MathNumericType, n: U): U
 
@@ -1112,7 +1112,7 @@ declare namespace math {
      */
     round<T extends MathNumericType | MathCollection>(
       x: T,
-      n?: number | BigNumber
+      n?: number | BigNumber,
     ): NoLiteralType<T>
     round<U extends MathCollection>(x: MathNumericType, n: U): U
 
@@ -1243,7 +1243,7 @@ declare namespace math {
      */
     log<T extends number | BigNumber | Complex>(
       x: T,
-      base?: number | BigNumber | Complex
+      base?: number | BigNumber | Complex,
     ): NoLiteralType<T>
 
     /**
@@ -1293,7 +1293,7 @@ declare namespace math {
      */
     mod<T extends number | BigNumber | Fraction | MathCollection>(
       x: T,
-      y: number | BigNumber | Fraction | MathCollection
+      y: number | BigNumber | Fraction | MathCollection,
     ): NoLiteralType<T>
 
     /**
@@ -1327,7 +1327,7 @@ declare namespace math {
      */
     norm(
       x: number | BigNumber | Complex | MathCollection,
-      p?: number | BigNumber | string
+      p?: number | BigNumber | string,
     ): number | BigNumber
 
     /**
@@ -1340,7 +1340,7 @@ declare namespace math {
      */
     nthRoot(
       a: number | BigNumber | MathCollection | Complex,
-      root?: number | BigNumber
+      root?: number | BigNumber,
     ): number | Complex | MathCollection
 
     /**
@@ -1456,7 +1456,7 @@ declare namespace math {
      */
     bitAnd<T extends number | BigNumber | MathCollection>(
       x: T,
-      y: number | BigNumber | MathCollection
+      y: number | BigNumber | MathCollection,
     ): NoLiteralType<T>
 
     /**
@@ -1493,7 +1493,7 @@ declare namespace math {
      */
     bitXor<T extends number | BigNumber | MathCollection>(
       x: T,
-      y: number | BigNumber | MathCollection
+      y: number | BigNumber | MathCollection,
     ): NoLiteralType<T>
 
     /**
@@ -1506,7 +1506,7 @@ declare namespace math {
      */
     leftShift<T extends number | BigNumber | MathCollection>(
       x: T,
-      y: number | BigNumber
+      y: number | BigNumber,
     ): NoLiteralType<T>
 
     /**
@@ -1519,7 +1519,7 @@ declare namespace math {
      */
     rightArithShift<T extends number | BigNumber | MathCollection>(
       x: T,
-      y: number | BigNumber
+      y: number | BigNumber,
     ): NoLiteralType<T>
 
     /**
@@ -1532,7 +1532,7 @@ declare namespace math {
      */
     rightLogShift<T extends number | MathCollection>(
       x: T,
-      y: number
+      y: number,
     ): NoLiteralType<T>
 
     /*************************************************************************
@@ -1569,7 +1569,7 @@ declare namespace math {
      */
     composition<T extends number | BigNumber>(
       n: T,
-      k: number | BigNumber
+      k: number | BigNumber,
     ): NoLiteralType<T>
 
     /**
@@ -1584,7 +1584,7 @@ declare namespace math {
      */
     stirlingS2<T extends number | BigNumber>(
       n: T,
-      k: number | BigNumber
+      k: number | BigNumber,
     ): NoLiteralType<T>
 
     /*************************************************************************
@@ -1611,7 +1611,7 @@ declare namespace math {
      * @returns The complex conjugate of x
      */
     conj<T extends number | BigNumber | Complex | MathCollection>(
-      x: T
+      x: T,
     ): NoLiteralType<T>
 
     /**
@@ -1654,7 +1654,7 @@ declare namespace math {
      */
     distance(
       x: MathCollection | object,
-      y: MathCollection | object
+      y: MathCollection | object,
     ): number | BigNumber
 
     /**
@@ -1676,7 +1676,7 @@ declare namespace math {
       w: MathCollection,
       x: MathCollection,
       y: MathCollection,
-      z?: MathCollection
+      z?: MathCollection,
     ): MathArray
 
     /*************************************************************************
@@ -1694,7 +1694,7 @@ declare namespace math {
      */
     and(
       x: number | BigNumber | Complex | Unit | MathCollection,
-      y: number | BigNumber | Complex | Unit | MathCollection
+      y: number | BigNumber | Complex | Unit | MathCollection,
     ): boolean | MathCollection
 
     /**
@@ -1704,7 +1704,7 @@ declare namespace math {
      * @returns Returns true when input is a zero or empty value.
      */
     not(
-      x: number | BigNumber | Complex | Unit | MathCollection
+      x: number | BigNumber | Complex | Unit | MathCollection,
     ): boolean | MathCollection
 
     /**
@@ -1718,7 +1718,7 @@ declare namespace math {
      */
     or(
       x: number | BigNumber | Complex | Unit | MathCollection,
-      y: number | BigNumber | Complex | Unit | MathCollection
+      y: number | BigNumber | Complex | Unit | MathCollection,
     ): boolean | MathCollection
 
     /**
@@ -1732,7 +1732,7 @@ declare namespace math {
      */
     xor(
       x: number | BigNumber | Complex | Unit | MathCollection,
-      y: number | BigNumber | Complex | Unit | MathCollection
+      y: number | BigNumber | Complex | Unit | MathCollection,
     ): boolean | MathCollection
 
     /*************************************************************************
@@ -1752,7 +1752,7 @@ declare namespace math {
     apply<T extends MathCollection>(
       array: T,
       dim: number,
-      callback: (array: MathCollection) => number
+      callback: (array: MathCollection) => number,
     ): T
 
     /**
@@ -1800,7 +1800,7 @@ declare namespace math {
     diag(
       X: MathCollection,
       k: number | BigNumber,
-      format?: string
+      format?: string,
     ): Matrix | MathArray
 
     /**
@@ -1828,7 +1828,7 @@ declare namespace math {
      */
     eigs(
       x: MathCollection,
-      prec?: number | BigNumber
+      prec?: number | BigNumber,
     ): { values: MathCollection; vectors: MathCollection }
 
     /**
@@ -1855,7 +1855,7 @@ declare namespace math {
     sylvester(
       A: Matrix | MathArray,
       B: Matrix | MathArray,
-      C: Matrix | MathArray
+      C: Matrix | MathArray,
     ): Matrix | MathArray
 
     /**
@@ -1886,7 +1886,7 @@ declare namespace math {
      */
     identity(
       size: number | number[] | Matrix | MathArray,
-      format?: string
+      format?: string,
     ): Matrix | MathArray | number
     /**
      * @param m The x dimension for the matrix
@@ -1913,9 +1913,9 @@ declare namespace math {
             value: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             index: any,
-            matrix: Matrix | MathArray | string[]
+            matrix: Matrix | MathArray | string[],
           ) => boolean)
-        | RegExp
+        | RegExp,
     ): Matrix | MathArray
 
     /**
@@ -1936,7 +1936,7 @@ declare namespace math {
     forEach<T extends Matrix | MathArray>(
       x: T,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (value: any, index: any, matrix: T) => void
+      callback: (value: any, index: any, matrix: T) => void,
     ): void
 
     /**
@@ -1966,7 +1966,7 @@ declare namespace math {
     map<T extends Matrix | MathArray>(
       x: T,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (value: any, index: any, matrix: T) => MathType | string
+      callback: (value: any, index: any, matrix: T) => MathType | string,
     ): T
 
     /**
@@ -1978,7 +1978,7 @@ declare namespace math {
      */
     ones(
       size?: number | number[] | BigNumber | BigNumber[],
-      format?: string
+      format?: string,
     ): MathCollection
     /**
      * @param m The x dimension of the matrix
@@ -1989,7 +1989,7 @@ declare namespace math {
     ones(
       m: number | BigNumber,
       n: number | BigNumber,
-      format?: string
+      format?: string,
     ): MathCollection
     /**
      * @param m The x dimension of the matrix
@@ -2002,7 +2002,7 @@ declare namespace math {
       m: number | BigNumber,
       n: number | BigNumber,
       p: number | BigNumber,
-      format?: string
+      format?: string,
     ): MathCollection
     /** Actually ones can take an arbitrary number of dimensions before the
      ** optional format, not sure how to write that in TypeScript
@@ -2022,7 +2022,7 @@ declare namespace math {
       x: MathCollection,
       k: number,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      compare?: 'asc' | 'desc' | ((a: any, b: any) => number)
+      compare?: 'asc' | 'desc' | ((a: any, b: any) => number),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): any
 
@@ -2050,13 +2050,13 @@ declare namespace math {
     range(
       start: number | BigNumber,
       end: number | BigNumber,
-      includeEnd?: boolean
+      includeEnd?: boolean,
     ): Matrix
     range(
       start: number | BigNumber,
       end: number | BigNumber,
       step: number | BigNumber,
-      includeEnd?: boolean
+      includeEnd?: boolean,
     ): Matrix
 
     /**
@@ -2079,7 +2079,7 @@ declare namespace math {
     resize<T extends MathCollection>(
       x: T,
       size: MathCollection,
-      defaultValue?: number | string
+      defaultValue?: number | string,
     ): T
 
     /**
@@ -2092,7 +2092,7 @@ declare namespace math {
     rotationMatrix<T extends MathCollection>(
       theta?: number | BigNumber | Complex | Unit,
       axis?: T,
-      format?: 'sparse' | 'dense'
+      format?: 'sparse' | 'dense',
     ): T
 
     /**
@@ -2121,7 +2121,7 @@ declare namespace math {
     rotate<T extends MathCollection>(
       w: T,
       theta: number | BigNumber | Complex | Unit,
-      v?: T
+      v?: T,
     ): T
 
     /**
@@ -2130,7 +2130,7 @@ declare namespace math {
      * @returns A vector with the size of x
      */
     size(
-      x: boolean | number | Complex | Unit | string | MathCollection
+      x: boolean | number | Complex | Unit | string | MathCollection,
     ): MathCollection
 
     /**
@@ -2144,7 +2144,7 @@ declare namespace math {
     sort<T extends Matrix | MathArray>(
       x: T,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      compare: ((a: any, b: any) => number) | 'asc' | 'desc' | 'natural'
+      compare: ((a: any, b: any) => number) | 'asc' | 'desc' | 'natural',
     ): T
 
     /**
@@ -2181,7 +2181,7 @@ declare namespace math {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       replacement?: any,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      defaultValue?: any
+      defaultValue?: any,
     ): T
 
     /**
@@ -2209,7 +2209,7 @@ declare namespace math {
      */
     zeros(
       size?: number | number[] | BigNumber | BigNumber[],
-      format?: string
+      format?: string,
     ): MathCollection
     /**
      * @param m The x dimension of the matrix
@@ -2220,7 +2220,7 @@ declare namespace math {
     zeros(
       m: number | BigNumber,
       n: number | BigNumber,
-      format?: string
+      format?: string,
     ): MathCollection
     /**
      * @param m The x dimension of the matrix
@@ -2233,7 +2233,7 @@ declare namespace math {
       m: number | BigNumber,
       n: number | BigNumber,
       p: number | BigNumber,
-      format?: string
+      format?: string,
     ): MathCollection
     /** Actually zeros can take any number of dimensions before the
      ** optional format, not sure how to write that in TypeScript
@@ -2267,7 +2267,7 @@ declare namespace math {
      */
     combinations<T extends number | BigNumber>(
       n: T,
-      k: number | BigNumber
+      k: number | BigNumber,
     ): NoLiteralType<T>
 
     /**
@@ -2278,7 +2278,7 @@ declare namespace math {
      * @returns The factorial of n
      */
     factorial<T extends number | BigNumber | MathCollection>(
-      n: T
+      n: T,
     ): NoLiteralType<T>
 
     /**
@@ -2326,7 +2326,7 @@ declare namespace math {
      */
     permutations<T extends number | BigNumber>(
       n: T,
-      k?: number | BigNumber
+      k?: number | BigNumber,
     ): NoLiteralType<T>
 
     /**
@@ -2384,7 +2384,7 @@ declare namespace math {
      */
     compare(
       x: MathType | string,
-      y: MathType | string
+      y: MathType | string,
     ): number | BigNumber | Fraction | MathCollection
 
     /**
@@ -2411,7 +2411,7 @@ declare namespace math {
      */
     compareText(
       x: string | MathCollection,
-      y: string | MathCollection
+      y: string | MathCollection,
     ): number | MathCollection
 
     /**
@@ -2424,7 +2424,7 @@ declare namespace math {
      */
     deepEqual(
       x: MathType,
-      y: MathType
+      y: MathType,
     ): number | BigNumber | Fraction | Complex | Unit | MathCollection
 
     /**
@@ -2453,7 +2453,7 @@ declare namespace math {
      */
     equalText(
       x: string | MathCollection,
-      y: string | MathCollection
+      y: string | MathCollection,
     ): number | MathCollection
 
     /**
@@ -2481,7 +2481,7 @@ declare namespace math {
      */
     largerEq(
       x: MathType | string,
-      y: MathType | string
+      y: MathType | string,
     ): boolean | MathCollection
 
     /**
@@ -2496,7 +2496,7 @@ declare namespace math {
      */
     smaller(
       x: MathType | string,
-      y: MathType | string
+      y: MathType | string,
     ): boolean | MathCollection
 
     /**
@@ -2512,7 +2512,7 @@ declare namespace math {
      */
     smallerEq(
       x: MathType | string,
-      y: MathType | string
+      y: MathType | string,
     ): boolean | MathCollection
 
     /**
@@ -2531,7 +2531,7 @@ declare namespace math {
      */
     unequal(
       x: MathType | string,
-      y: MathType | string
+      y: MathType | string,
     ): boolean | MathCollection
 
     /*************************************************************************
@@ -2596,7 +2596,7 @@ declare namespace math {
      */
     setMultiplicity(
       e: number | BigNumber | Fraction | Complex,
-      a: MathCollection
+      a: MathCollection,
     ): number
 
     /**
@@ -2766,7 +2766,7 @@ declare namespace math {
     quantileSeq(
       A: MathCollection,
       prob: number | BigNumber | MathArray,
-      sorted?: boolean
+      sorted?: boolean,
     ): number | BigNumber | Unit | MathArray
 
     /**
@@ -2803,7 +2803,7 @@ declare namespace math {
     std(
       array: MathCollection,
       dimension?: number,
-      normalization?: 'unbiased' | 'uncorrected' | 'biased'
+      normalization?: 'unbiased' | 'uncorrected' | 'biased',
     ): number[]
     /**
      * Compute the standard deviation of a matrix or a list with values. The
@@ -2823,7 +2823,7 @@ declare namespace math {
      */
     std(
       array: MathCollection,
-      normalization: 'unbiased' | 'uncorrected' | 'biased'
+      normalization: 'unbiased' | 'uncorrected' | 'biased',
     ): number
 
     /**
@@ -2901,7 +2901,7 @@ declare namespace math {
     variance(
       array: MathCollection,
       dimension?: number,
-      normalization?: 'unbiased' | 'uncorrected' | 'biased'
+      normalization?: 'unbiased' | 'uncorrected' | 'biased',
     ): number[]
     /**
      * @param array A single matrix
@@ -2912,7 +2912,7 @@ declare namespace math {
      */
     variance(
       array: MathCollection,
-      normalization: 'unbiased' | 'uncorrected' | 'biased'
+      normalization: 'unbiased' | 'uncorrected' | 'biased',
     ): number
 
     /*************************************************************************
@@ -2938,7 +2938,7 @@ declare namespace math {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       options?: FormatOptions | number | ((item: any) => string),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback?: (value: any) => string
+      callback?: (value: any) => string,
     ): string
 
     /**
@@ -2957,7 +2957,7 @@ declare namespace math {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       values: any,
       precision?: number,
-      options?: number | object
+      options?: number | object,
     ): void
 
     /*************************************************************************
@@ -3287,7 +3287,7 @@ declare namespace math {
     isObjectNode(x: unknown): x is ObjectNode
 
     isOperatorNode(
-      x: unknown
+      x: unknown,
     ): x is OperatorNode<OperatorNodeOp, OperatorNodeFn>
 
     isParenthesisNode(x: unknown): x is ParenthesisNode
@@ -3352,7 +3352,7 @@ declare namespace math {
      * case of an unknown data type.
      */
     isNegative(
-      x: number | BigNumber | Fraction | MathCollection | Unit
+      x: number | BigNumber | Fraction | MathCollection | Unit,
     ): boolean
 
     /**
@@ -3375,7 +3375,7 @@ declare namespace math {
      * case of an unknown data type.
      */
     isPositive(
-      x: number | BigNumber | Fraction | MathCollection | Unit
+      x: number | BigNumber | Fraction | MathCollection | Unit,
     ): boolean
 
     /**
@@ -3397,7 +3397,7 @@ declare namespace math {
      * unknown data type.
      */
     isZero(
-      x: number | BigNumber | Fraction | MathCollection | Unit | Complex
+      x: number | BigNumber | Fraction | MathCollection | Unit | Complex,
     ): boolean
 
     /**
@@ -3434,16 +3434,19 @@ declare namespace math {
   interface FactoryDependencies {
     create: (
       factories: FactoryFunctionMap,
-      config?: ConfigOptions
+      config?: ConfigOptions,
     ) => MathJsStatic
     factory: <T, TDeps extends readonly MathJsFunctionName[]>(
       name: string,
       dependencies: TDeps,
       create: (
-        injected: Pick<MathJsStatic, Extract<MathJsFunctionName, TDeps[number]>>
+        injected: Pick<
+          MathJsStatic,
+          Extract<MathJsFunctionName, TDeps[number]>
+        >,
       ) => T,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      meta?: any
+      meta?: any,
     ) => FactoryFunction<T>
     all: FactoryFunctionMap
 
@@ -3783,7 +3786,7 @@ declare namespace math {
     subset(index: Index, replacement?: any, defaultValue?: any): Matrix
     apply(
       dim: number,
-      callback: (array: MathCollection) => number
+      callback: (array: MathCollection) => number,
     ): Matrix | MathArray
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     get(index: number[]): any
@@ -3795,12 +3798,12 @@ declare namespace math {
     map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       callback: (a: any, b: number[], c: Matrix) => any,
-      skipZeros?: boolean
+      skipZeros?: boolean,
     ): Matrix
     forEach(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       callback: (a: any, b: number[], c: Matrix) => void,
-      skipZeros?: boolean
+      skipZeros?: boolean,
     ): void
     toArray(): MathArray
     valueOf(): MathArray
@@ -3968,12 +3971,12 @@ declare namespace math {
       expr: MathNode | string,
       rules: SimplifyRule[],
       scope?: object,
-      options?: SimplifyOptions
+      options?: SimplifyOptions,
     ): MathNode
     (
       expr: MathNode | string,
       scope: object,
-      options?: SimplifyOptions
+      options?: SimplifyOptions,
     ): MathNode
 
     rules: SimplifyRule[]
@@ -4055,7 +4058,7 @@ declare namespace math {
      */
     filter(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (node: MathNode, path: string, parent: MathNode) => any
+      callback: (node: MathNode, path: string, parent: MathNode) => any,
     ): MathNode[]
 
     /**
@@ -4063,7 +4066,7 @@ declare namespace math {
      */
     forEach(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (node: MathNode, path: string, parent: MathNode) => void
+      callback: (node: MathNode, path: string, parent: MathNode) => void,
     ): void
 
     /**
@@ -4078,7 +4081,7 @@ declare namespace math {
      * See also transform, which is a recursive version of map.
      */
     map(
-      callback: (node: MathNode, path: string, parent: MathNode) => MathNode
+      callback: (node: MathNode, path: string, parent: MathNode) => MathNode,
     ): MathNode
 
     /**
@@ -4123,7 +4126,7 @@ declare namespace math {
      * ```
      */
     transform<TResult>(
-      callback: (node: this, path: string, parent: MathNode) => TResult
+      callback: (node: this, path: string, parent: MathNode) => TResult,
     ): TResult
 
     /**
@@ -4156,7 +4159,7 @@ declare namespace math {
      * ```
      */
     traverse(
-      callback: (node: MathNode, path: string, parent: MathNode) => void
+      callback: (node: MathNode, path: string, parent: MathNode) => void,
     ): void
   }
 
@@ -4252,7 +4255,7 @@ declare namespace math {
     bignumber(
       this: MathJsChain<
         number | string | Fraction | BigNumber | boolean | Fraction | null
-      >
+      >,
     ): MathJsChain<BigNumber>
     bignumber<T extends MathCollection>(this: MathJsChain<T>): MathJsChain<T>
 
@@ -4263,7 +4266,7 @@ declare namespace math {
      * When value is a matrix, all elements will be converted to boolean.
      */
     boolean(
-      this: MathJsChain<string | number | boolean | null>
+      this: MathJsChain<string | number | boolean | null>,
     ): MathJsChain<boolean>
     boolean(this: MathJsChain<MathCollection>): MathJsChain<MathCollection>
 
@@ -4274,7 +4277,7 @@ declare namespace math {
      */
     complex(
       this: MathJsChain<Complex | string | PolarCoordinates>,
-      im?: number
+      im?: number,
     ): MathJsChain<Complex>
     complex(this: MathJsChain<MathCollection>): MathJsChain<MathCollection>
 
@@ -4293,7 +4296,7 @@ declare namespace math {
     createUnit(
       this: MathJsChain<string>,
       definition?: string | UnitDefinition | Unit,
-      options?: CreateUnitOptions
+      options?: CreateUnitOptions,
     ): MathJsChain<Unit>
     /**
      * Create a user-defined unit and register it with the Unit type.
@@ -4307,7 +4310,7 @@ declare namespace math {
      */
     createUnit(
       this: MathJsChain<Record<string, string | UnitDefinition | Unit>>,
-      options?: CreateUnitOptions
+      options?: CreateUnitOptions,
     ): MathJsChain<Unit>
 
     /**
@@ -4319,7 +4322,7 @@ declare namespace math {
       this: MathJsChain<
         number | string | BigNumber | Fraction | FractionDefinition
       >,
-      denominator?: number
+      denominator?: number,
     ): MathJsChain<Fraction>
     fraction(this: MathJsChain<MathCollection>): MathJsChain<MathCollection>
 
@@ -4340,7 +4343,7 @@ declare namespace math {
     matrix(
       this: MathJsChain<MathCollection>,
       format?: 'sparse' | 'dense',
-      dataType?: string
+      dataType?: string,
     ): MathJsChain<Matrix>
 
     /**
@@ -4353,11 +4356,11 @@ declare namespace math {
       this: MathJsChain<
         string | number | BigNumber | Fraction | boolean | Unit | null
       >,
-      valuelessUnit?: Unit | string
+      valuelessUnit?: Unit | string,
     ): MathJsChain<number>
     number(
       this: MathJsChain<MathCollection>,
-      valuelessUnit?: Unit | string
+      valuelessUnit?: Unit | string,
     ): MathJsChain<MathCollection>
 
     /**
@@ -4369,7 +4372,7 @@ declare namespace math {
      */
     sparse(
       this: MathJsChain<MathCollection>,
-      dataType?: string
+      dataType?: string,
     ): MathJsChain<Matrix>
 
     /**
@@ -4384,7 +4387,7 @@ declare namespace math {
      * Arrays and Matrices are processed element wise.
      */
     string(
-      this: MathJsChain<MathNumericType | string | Unit | null>
+      this: MathJsChain<MathNumericType | string | Unit | null>,
     ): MathJsChain<string>
     string(this: MathJsChain<MathCollection>): MathJsChain<MathCollection>
 
@@ -4398,7 +4401,7 @@ declare namespace math {
     unit(this: MathJsChain<Unit>, unit?: string): MathJsChain<Unit>
     unit(
       this: MathJsChain<number | BigNumber | Fraction | Complex>,
-      unit?: string
+      unit?: string,
     ): MathJsChain<Unit>
     unit(this: MathJsChain<MathCollection>, unit?: string): MathJsChain<Unit[]>
 
@@ -4419,12 +4422,12 @@ declare namespace math {
      */
     evaluate(
       this: MathJsChain<MathExpression | Matrix>,
-      scope?: object
+      scope?: object,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): MathJsChain<any>
     evaluate(
       this: MathJsChain<MathExpression[]>,
-      scope?: object
+      scope?: object,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): MathJsChain<any[]>
 
@@ -4440,7 +4443,7 @@ declare namespace math {
     parse(
       this: MathJsChain<MathExpression[]>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      options?: any
+      options?: any,
     ): MathJsChain<MathNode[]>
 
     /**
@@ -4451,7 +4454,7 @@ declare namespace math {
     parse(
       this: MathJsChain<MathExpression>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      options?: any
+      options?: any,
     ): MathJsChain<MathNode>
 
     /**
@@ -4461,12 +4464,12 @@ declare namespace math {
     resolve(
       this: MathJsChain<MathNode>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      scope?: Record<string, any>
+      scope?: Record<string, any>,
     ): MathJsChain<MathNode>
     resolve(
       this: MathJsChain<MathNode[]>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      scope?: Record<string, any>
+      scope?: Record<string, any>,
     ): MathJsChain<MathNode[]>
 
     /*************************************************************************
@@ -4480,7 +4483,7 @@ declare namespace math {
     derivative(
       this: MathJsChain<MathNode | string>,
       variable: MathNode | string,
-      options?: { simplify: boolean }
+      options?: { simplify: boolean },
     ): MathJsChain<MathNode>
 
     /**
@@ -4490,11 +4493,11 @@ declare namespace math {
      */
     lsolve(
       this: MathJsChain<Matrix>,
-      b: Matrix | MathArray
+      b: Matrix | MathArray,
     ): MathJsChain<Matrix>
     lsolve(
       this: MathJsChain<MathArray>,
-      b: Matrix | MathArray
+      b: Matrix | MathArray,
     ): MathJsChain<MathArray>
 
     /**
@@ -4517,19 +4520,19 @@ declare namespace math {
       this: MathJsChain<Matrix>,
       b: Matrix | MathArray,
       order?: number,
-      threshold?: number
+      threshold?: number,
     ): MathJsChain<Matrix>
 
     lusolve(
       this: MathJsChain<MathArray>,
       b: Matrix | MathArray,
       order?: number,
-      threshold?: number
+      threshold?: number,
     ): MathJsChain<MathArray>
 
     lusolve(
       this: MathJsChain<LUDecomposition>,
-      b: Matrix | MathArray
+      b: Matrix | MathArray,
     ): MathJsChain<Matrix>
 
     /**
@@ -4552,7 +4555,7 @@ declare namespace math {
     rationalize(
       this: MathJsChain<MathNode | string>,
       optional?: object | boolean,
-      detailed?: boolean
+      detailed?: boolean,
     ): MathJsChain<MathNode>
 
     /**
@@ -4568,16 +4571,16 @@ declare namespace math {
       this: MathJsChain<MathNode | string>,
       rules?: SimplifyRule[],
       scope?: Map<string, MathType> | object,
-      options?: SimplifyOptions
+      options?: SimplifyOptions,
     ): MathJsChain<MathNode>
 
     simplifyConstant(
       this: MathJsChain<MathNode | string>,
-      options?: SimplifyOptions
+      options?: SimplifyOptions,
     ): MathJsChain<MathNode>
     simplifyCore(
       this: MathJsChain<MathNode | string>,
-      options?: SimplifyOptions
+      options?: SimplifyOptions,
     ): MathJsChain<MathNode>
 
     /**
@@ -4598,7 +4601,7 @@ declare namespace math {
     slu(
       this: MathJsChain<Matrix>,
       order: number,
-      threshold: number
+      threshold: number,
     ): MathJsChain<SLUDecomposition>
 
     /**
@@ -4608,11 +4611,11 @@ declare namespace math {
      */
     usolve(
       this: MathJsChain<Matrix>,
-      b: Matrix | MathArray
+      b: Matrix | MathArray,
     ): MathJsChain<Matrix>
     usolve(
       this: MathJsChain<MathArray>,
-      b: Matrix | MathArray
+      b: Matrix | MathArray,
     ): MathJsChain<MathArray>
 
     /*************************************************************************
@@ -4651,7 +4654,7 @@ declare namespace math {
     apply<T extends MathCollection>(
       this: MathJsChain<T>,
       dim: number,
-      callback: (array: Array<MathType> | Matrix) => number
+      callback: (array: Array<MathType> | Matrix) => number,
     ): MathJsChain<T>
 
     /**
@@ -4676,11 +4679,11 @@ declare namespace math {
      */
     ceil(
       this: MathJsChain<MathNumericType>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathNumericType>
     ceil(
       this: MathJsChain<MathCollection>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathCollection>
 
     /**
@@ -4690,11 +4693,11 @@ declare namespace math {
      */
     fix(
       this: MathJsChain<MathNumericType>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathNumericType>
     fix(
       this: MathJsChain<MathCollection>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathCollection>
 
     /**
@@ -4704,11 +4707,11 @@ declare namespace math {
      */
     floor(
       this: MathJsChain<MathNumericType>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathNumericType>
     floor(
       this: MathJsChain<MathCollection>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathCollection>
 
     /**
@@ -4718,11 +4721,11 @@ declare namespace math {
      */
     round(
       this: MathJsChain<MathNumericType>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathNumericType>
     round(
       this: MathJsChain<MathCollection>,
-      n?: number | BigNumber | MathCollection
+      n?: number | BigNumber | MathCollection,
     ): MathJsChain<MathCollection>
 
     // End of rounding group
@@ -4754,17 +4757,17 @@ declare namespace math {
      */
     dotDivide<T extends MathCollection>(
       this: MathJsChain<T>,
-      y: MathType
+      y: MathType,
     ): MathJsChain<T>
     dotDivide<T extends MathCollection>(
       this: MathJsChain<MathType>,
-      y: T
+      y: T,
     ): MathJsChain<T>
     dotDivide(this: MathJsChain<Unit>, y: MathType): MathJsChain<Unit>
     dotDivide(this: MathJsChain<MathType>, y: Unit): MathJsChain<Unit>
     dotDivide(
       this: MathJsChain<MathNumericType>,
-      y: MathNumericType
+      y: MathNumericType,
     ): MathJsChain<MathNumericType>
 
     /**
@@ -4774,17 +4777,17 @@ declare namespace math {
      */
     dotMultiply<T extends MathCollection>(
       this: MathJsChain<T>,
-      y: MathType
+      y: MathType,
     ): MathJsChain<T>
     dotMultiply<T extends MathCollection>(
       this: MathJsChain<MathType>,
-      y: T
+      y: T,
     ): MathJsChain<T>
     dotMultiply(this: MathJsChain<Unit>, y: MathType): MathJsChain<Unit>
     dotMultiply(this: MathJsChain<MathType>, y: Unit): MathJsChain<Unit>
     dotMultiply(
       this: MathJsChain<MathNumericType>,
-      y: MathNumericType
+      y: MathNumericType,
     ): MathJsChain<MathNumericType>
 
     /**
@@ -4793,7 +4796,7 @@ declare namespace math {
      */
     dotPow<T extends MathType>(
       this: MathJsChain<T>,
-      y: MathType
+      y: MathType,
     ): MathJsChain<T>
 
     /**
@@ -4856,7 +4859,7 @@ declare namespace math {
      */
     log<T extends number | BigNumber | Complex | MathCollection>(
       this: MathJsChain<T>,
-      base?: number | BigNumber | Complex
+      base?: number | BigNumber | Complex,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -4876,23 +4879,23 @@ declare namespace math {
      */
     log1p(
       this: MathJsChain<number>,
-      base?: number | BigNumber | Complex
+      base?: number | BigNumber | Complex,
     ): MathJsChain<number>
     log1p(
       this: MathJsChain<BigNumber>,
-      base?: number | BigNumber | Complex
+      base?: number | BigNumber | Complex,
     ): MathJsChain<BigNumber>
     log1p(
       this: MathJsChain<Complex>,
-      base?: number | BigNumber | Complex
+      base?: number | BigNumber | Complex,
     ): MathJsChain<Complex>
     log1p(
       this: MathJsChain<MathArray>,
-      base?: number | BigNumber | Complex
+      base?: number | BigNumber | Complex,
     ): MathJsChain<MathArray>
     log1p(
       this: MathJsChain<Matrix>,
-      base?: number | BigNumber | Complex
+      base?: number | BigNumber | Complex,
     ): MathJsChain<Matrix>
 
     /**
@@ -4915,7 +4918,7 @@ declare namespace math {
      */
     mod<T extends number | BigNumber | Fraction | MathCollection>(
       this: MathJsChain<T>,
-      y: number | BigNumber | Fraction | MathCollection
+      y: number | BigNumber | Fraction | MathCollection,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -4925,7 +4928,7 @@ declare namespace math {
      */
     multiply<T extends Matrix | MathArray>(
       this: MathJsChain<T>,
-      y: MathType
+      y: MathType,
     ): MathJsChain<T>
     multiply(this: MathJsChain<Unit>, y: Unit): MathJsChain<Unit>
     multiply(this: MathJsChain<number>, y: number): MathJsChain<number>
@@ -4940,7 +4943,7 @@ declare namespace math {
      */
     norm(
       this: MathJsChain<number | BigNumber | Complex | MathCollection>,
-      p?: number | BigNumber | string
+      p?: number | BigNumber | string,
     ): MathJsChain<number | BigNumber>
 
     /**
@@ -4951,7 +4954,7 @@ declare namespace math {
      */
     nthRoot(
       this: MathJsChain<number | BigNumber | MathCollection | Complex>,
-      root?: number | BigNumber
+      root?: number | BigNumber,
     ): MathJsChain<number | Complex | MathCollection>
 
     /**
@@ -4961,7 +4964,7 @@ declare namespace math {
      */
     pow(
       this: MathJsChain<MathType>,
-      y: number | BigNumber | Complex
+      y: number | BigNumber | Complex,
     ): MathJsChain<MathType>
 
     /**
@@ -5049,7 +5052,7 @@ declare namespace math {
      */
     xgcd(
       this: MathJsChain<number | BigNumber>,
-      b: number | BigNumber
+      b: number | BigNumber,
     ): MathJsChain<MathArray>
 
     /**
@@ -5064,7 +5067,7 @@ declare namespace math {
      * calculated.
      */
     sum(
-      this: MathJsChain<Array<number | BigNumber | Fraction>>
+      this: MathJsChain<Array<number | BigNumber | Fraction>>,
     ): MathJsChain<number>
     sum(this: MathJsChain<MathCollection>): MathJsChain<number>
     /*************************************************************************
@@ -5078,7 +5081,7 @@ declare namespace math {
      */
     bitAnd<T extends number | BigNumber | MathCollection>(
       this: MathJsChain<T>,
-      y: number | BigNumber | MathCollection
+      y: number | BigNumber | MathCollection,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5110,7 +5113,7 @@ declare namespace math {
      */
     bitXor<T extends number | BigNumber | MathCollection>(
       this: MathJsChain<T>,
-      y: number | BigNumber | MathCollection
+      y: number | BigNumber | MathCollection,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5121,7 +5124,7 @@ declare namespace math {
      */
     leftShift<T extends number | BigNumber | MathCollection>(
       this: MathJsChain<T>,
-      y: number | BigNumber
+      y: number | BigNumber,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5132,7 +5135,7 @@ declare namespace math {
      */
     rightArithShift<T extends number | BigNumber | MathCollection>(
       this: MathJsChain<T>,
-      y: number | BigNumber
+      y: number | BigNumber,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5143,7 +5146,7 @@ declare namespace math {
      */
     rightLogShift<T extends number | MathCollection>(
       this: MathJsChain<T>,
-      y: number
+      y: number,
     ): MathJsChain<NoLiteralType<T>>
 
     /*************************************************************************
@@ -5176,7 +5179,7 @@ declare namespace math {
      */
     composition<T extends number | BigNumber>(
       this: MathJsChain<T>,
-      k: number | BigNumber
+      k: number | BigNumber,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5189,7 +5192,7 @@ declare namespace math {
      */
     stirlingS2<T extends number | BigNumber>(
       this: MathJsChain<T>,
-      k: number | BigNumber
+      k: number | BigNumber,
     ): MathJsChain<NoLiteralType<T>>
 
     /*************************************************************************
@@ -5213,7 +5216,7 @@ declare namespace math {
      * evaluated element wise.
      */
     conj<T extends number | BigNumber | Complex | MathCollection>(
-      this: MathJsChain<T>
+      this: MathJsChain<T>,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5250,7 +5253,7 @@ declare namespace math {
      */
     distance(
       this: MathJsChain<MathCollection | object>,
-      y: MathCollection | object
+      y: MathCollection | object,
     ): MathJsChain<number | BigNumber>
 
     /**
@@ -5270,7 +5273,7 @@ declare namespace math {
       this: MathJsChain<MathCollection>,
       x: MathCollection,
       y: MathCollection,
-      z?: MathCollection
+      z?: MathCollection,
     ): MathJsChain<MathArray>
 
     /*************************************************************************
@@ -5285,7 +5288,7 @@ declare namespace math {
      */
     and(
       this: MathJsChain<number | BigNumber | Complex | Unit | MathCollection>,
-      y: number | BigNumber | Complex | Unit | MathCollection
+      y: number | BigNumber | Complex | Unit | MathCollection,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5293,7 +5296,7 @@ declare namespace math {
      * the function is evaluated element wise.
      */
     not(
-      this: MathJsChain<number | BigNumber | Complex | Unit | MathCollection>
+      this: MathJsChain<number | BigNumber | Complex | Unit | MathCollection>,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5304,7 +5307,7 @@ declare namespace math {
      */
     or(
       this: MathJsChain<number | BigNumber | Complex | Unit | MathCollection>,
-      y: number | BigNumber | Complex | Unit | MathCollection
+      y: number | BigNumber | Complex | Unit | MathCollection,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5315,7 +5318,7 @@ declare namespace math {
      */
     xor(
       this: MathJsChain<number | BigNumber | Complex | Unit | MathCollection>,
-      y: number | BigNumber | Complex | Unit | MathCollection
+      y: number | BigNumber | Complex | Unit | MathCollection,
     ): MathJsChain<boolean | MathCollection>
 
     /*************************************************************************
@@ -5329,7 +5332,7 @@ declare namespace math {
      */
 
     concat(
-      this: MathJsChain<Array<MathCollection | number | BigNumber>>
+      this: MathJsChain<Array<MathCollection | number | BigNumber>>,
     ): MathJsChain<MathCollection>
 
     /**
@@ -5341,7 +5344,7 @@ declare namespace math {
      */
     cross(
       this: MathJsChain<MathCollection>,
-      y: MathCollection
+      y: MathCollection,
     ): MathJsChain<Matrix | MathArray>
 
     /**
@@ -5363,12 +5366,12 @@ declare namespace math {
      */
     diag(
       this: MathJsChain<MathCollection>,
-      format?: string
+      format?: string,
     ): MathJsChain<Matrix>
     diag(
       this: MathJsChain<MathCollection>,
       k: number | BigNumber,
-      format?: string
+      format?: string,
     ): MathJsChain<Matrix | MathArray>
 
     /**
@@ -5379,7 +5382,7 @@ declare namespace math {
      */
     dot(
       this: MathJsChain<MathCollection>,
-      y: MathCollection
+      y: MathCollection,
     ): MathJsChain<number>
 
     /**
@@ -5409,7 +5412,7 @@ declare namespace math {
      */
     lyap(
       this: MathJsChain<Matrix | MathArray>,
-      Q: Matrix | MathArray
+      Q: Matrix | MathArray,
     ): MathJsChain<Matrix | MathArray>
 
     /**
@@ -5419,7 +5422,7 @@ declare namespace math {
      */
     identity(
       this: MathJsChain<number | number[] | Matrix | MathArray>,
-      format?: string
+      format?: string,
     ): MathJsChain<Matrix | MathArray | number>
 
     /**
@@ -5429,7 +5432,7 @@ declare namespace math {
     identity(
       this: MathJsChain<number>,
       n: number,
-      format?: string
+      format?: string,
     ): MathJsChain<Matrix | MathArray | number>
 
     /**
@@ -5443,9 +5446,9 @@ declare namespace math {
             value: any,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             index: any,
-            matrix: Matrix | MathArray | string[]
+            matrix: Matrix | MathArray | string[],
           ) => boolean)
-        | RegExp
+        | RegExp,
     ): MathJsChain<Matrix | MathArray>
 
     /**
@@ -5461,7 +5464,7 @@ declare namespace math {
     forEach<T extends Matrix | MathArray>(
       this: MathJsChain<T>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (value: any, index: any, matrix: T) => void
+      callback: (value: any, index: any, matrix: T) => void,
     ): void
 
     /**
@@ -5469,7 +5472,7 @@ declare namespace math {
      */
 
     inv<T extends number | Complex | MathCollection>(
-      this: MathJsChain<T>
+      this: MathJsChain<T>,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5478,7 +5481,7 @@ declare namespace math {
      */
     kron(
       this: MathJsChain<Matrix | MathArray>,
-      y: Matrix | MathArray
+      y: Matrix | MathArray,
     ): MathJsChain<Matrix>
 
     /**
@@ -5491,7 +5494,7 @@ declare namespace math {
     map<T extends Matrix | MathArray>(
       this: MathJsChain<T>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (value: any, index: any, matrix: T) => MathType | string
+      callback: (value: any, index: any, matrix: T) => MathType | string,
     ): MathJsChain<T>
 
     /**
@@ -5501,7 +5504,7 @@ declare namespace math {
      */
     ones(
       this: MathJsChain<number | number[] | BigNumber | BigNumber[]>,
-      format?: string
+      format?: string,
     ): MathJsChain<MathCollection>
 
     /**
@@ -5516,7 +5519,7 @@ declare namespace math {
       this: MathJsChain<MathCollection>,
       k: number,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      compare?: 'asc' | 'desc' | ((a: any, b: any) => number)
+      compare?: 'asc' | 'desc' | ((a: any, b: any) => number),
     ): MathJsChain<MathCollection>
 
     /**
@@ -5532,13 +5535,13 @@ declare namespace math {
     range(
       this: MathJsChain<number | BigNumber>,
       end: number | BigNumber,
-      includeEnd?: boolean
+      includeEnd?: boolean,
     ): MathJsChain<Matrix>
     range(
       this: MathJsChain<number | BigNumber>,
       end: number | BigNumber,
       step: number | BigNumber,
-      includeEnd?: boolean
+      includeEnd?: boolean,
     ): MathJsChain<Matrix>
 
     /**
@@ -5548,7 +5551,7 @@ declare namespace math {
      */
     reshape<T extends MathCollection>(
       this: MathJsChain<T>,
-      sizes: number[]
+      sizes: number[],
     ): MathJsChain<T>
 
     /**
@@ -5560,7 +5563,7 @@ declare namespace math {
     resize<T extends MathCollection>(
       this: MathJsChain<T>,
       size: MathCollection,
-      defaultValue?: number | string
+      defaultValue?: number | string,
     ): MathJsChain<T>
 
     /**
@@ -5569,7 +5572,7 @@ declare namespace math {
     size(
       this: MathJsChain<
         boolean | number | Complex | Unit | string | MathCollection
-      >
+      >,
     ): MathJsChain<MathCollection>
 
     /**
@@ -5581,7 +5584,7 @@ declare namespace math {
     sort<T extends Matrix | MathArray>(
       this: MathJsChain<T>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      compare: ((a: any, b: any) => number) | 'asc' | 'desc' | 'natural'
+      compare: ((a: any, b: any) => number) | 'asc' | 'desc' | 'natural',
     ): MathJsChain<T>
 
     /**
@@ -5615,7 +5618,7 @@ declare namespace math {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       replacement?: any,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      defaultValue?: any
+      defaultValue?: any,
     ): MathJsChain<T>
 
     /**
@@ -5640,7 +5643,7 @@ declare namespace math {
      */
     zeros(
       this: MathJsChain<number | number[] | BigNumber | BigNumber[]>,
-      format?: string
+      format?: string,
     ): MathJsChain<MathCollection>
 
     /*************************************************************************
@@ -5655,7 +5658,7 @@ declare namespace math {
      */
     combinations<T extends number | BigNumber>(
       n: MathJsChain<T>,
-      k: number | BigNumber
+      k: number | BigNumber,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5665,7 +5668,7 @@ declare namespace math {
      */
 
     factorial<T extends number | BigNumber | MathCollection>(
-      n: MathJsChain<T>
+      n: MathJsChain<T>,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5675,7 +5678,7 @@ declare namespace math {
      */
 
     gamma<T extends number | BigNumber | Complex | MathCollection>(
-      n: MathJsChain<T>
+      n: MathJsChain<T>,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5685,7 +5688,7 @@ declare namespace math {
      */
     kldivergence(
       this: MathJsChain<MathCollection>,
-      p: MathCollection
+      p: MathCollection,
     ): MathJsChain<number>
 
     /**
@@ -5696,7 +5699,7 @@ declare namespace math {
      */
 
     multinomial<T extends number | BigNumber>(
-      a: MathJsChain<T[]>
+      a: MathJsChain<T[]>,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5707,7 +5710,7 @@ declare namespace math {
      */
     permutations<T extends number | BigNumber>(
       n: MathJsChain<T>,
-      k?: number | BigNumber
+      k?: number | BigNumber,
     ): MathJsChain<NoLiteralType<T>>
 
     /**
@@ -5721,7 +5724,7 @@ declare namespace math {
     pickRandom<T>(
       this: MathJsChain<T[]>,
       number: number,
-      weights: number[]
+      weights: number[],
     ): MathJsChain<T[]>
 
     /**
@@ -5736,7 +5739,7 @@ declare namespace math {
     random<T extends MathCollection>(
       this: MathJsChain<T>,
       min?: number,
-      max?: number
+      max?: number,
     ): MathJsChain<T>
 
     /**
@@ -5747,17 +5750,17 @@ declare namespace math {
      */
     randomInt<T extends MathCollection>(
       this: MathJsChain<T>,
-      max?: number
+      max?: number,
     ): MathJsChain<T>
     randomInt<T extends MathCollection>(
       this: MathJsChain<T>,
-      max?: number
+      max?: number,
     ): MathJsChain<T>
     // tslint:disable-next-line unified-signatures
     randomInt<T extends MathCollection>(
       this: MathJsChain<T>,
       min: number,
-      max: number
+      max: number,
     ): MathJsChain<T>
 
     /*************************************************************************
@@ -5774,7 +5777,7 @@ declare namespace math {
      */
     compare(
       this: MathJsChain<MathType | string>,
-      y: MathType | string
+      y: MathType | string,
     ): MathJsChain<number | BigNumber | Fraction | MathCollection>
 
     /**
@@ -5795,7 +5798,7 @@ declare namespace math {
      */
     compareText(
       this: MathJsChain<string | MathCollection>,
-      y: string | MathCollection
+      y: string | MathCollection,
     ): MathJsChain<number | MathCollection>
 
     /**
@@ -5805,7 +5808,7 @@ declare namespace math {
      */
     deepEqual(
       this: MathJsChain<MathType>,
-      y: MathType
+      y: MathType,
     ): MathJsChain<
       number | BigNumber | Fraction | Complex | Unit | MathCollection
     >
@@ -5824,7 +5827,7 @@ declare namespace math {
      */
     equal(
       this: MathJsChain<MathType | string>,
-      y: MathType | string
+      y: MathType | string,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5834,7 +5837,7 @@ declare namespace math {
      */
     equalText(
       this: MathJsChain<string | MathCollection>,
-      y: string | MathCollection
+      y: string | MathCollection,
     ): MathJsChain<number | MathCollection>
 
     /**
@@ -5847,7 +5850,7 @@ declare namespace math {
      */
     larger(
       this: MathJsChain<MathType | string>,
-      y: MathType | string
+      y: MathType | string,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5860,7 +5863,7 @@ declare namespace math {
      */
     largerEq(
       this: MathJsChain<MathType | string>,
-      y: MathType | string
+      y: MathType | string,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5873,7 +5876,7 @@ declare namespace math {
      */
     smaller(
       this: MathJsChain<MathType | string>,
-      y: MathType | string
+      y: MathType | string,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5886,7 +5889,7 @@ declare namespace math {
      */
     smallerEq(
       this: MathJsChain<MathType | string>,
-      y: MathType | string
+      y: MathType | string,
     ): MathJsChain<boolean | MathCollection>
 
     /**
@@ -5902,7 +5905,7 @@ declare namespace math {
      */
     unequal(
       this: MathJsChain<MathType | string>,
-      y: MathType | string
+      y: MathType | string,
     ): MathJsChain<boolean | MathCollection>
 
     /*************************************************************************
@@ -5917,7 +5920,7 @@ declare namespace math {
      */
     setCartesian<T extends MathCollection>(
       this: MathJsChain<T>,
-      a2: MathCollection
+      a2: MathCollection,
     ): MathJsChain<T>
 
     /**
@@ -5928,7 +5931,7 @@ declare namespace math {
      */
     setDifference<T extends MathCollection>(
       this: MathJsChain<T>,
-      a2: MathCollection
+      a2: MathCollection,
     ): MathJsChain<T>
 
     /**
@@ -5945,7 +5948,7 @@ declare namespace math {
      */
     setIntersect<T extends MathCollection>(
       this: MathJsChain<T>,
-      a2: MathCollection
+      a2: MathCollection,
     ): MathJsChain<T>
 
     /**
@@ -5956,7 +5959,7 @@ declare namespace math {
      */
     setIsSubset(
       this: MathJsChain<MathCollection>,
-      a2: MathCollection
+      a2: MathCollection,
     ): MathJsChain<boolean>
 
     /**
@@ -5967,7 +5970,7 @@ declare namespace math {
      */
     setMultiplicity(
       e: MathJsChain<number | BigNumber | Fraction | Complex>,
-      a: MathCollection
+      a: MathCollection,
     ): MathJsChain<number>
 
     /**
@@ -5994,7 +5997,7 @@ declare namespace math {
      */
     setSymDifference<T extends MathCollection>(
       this: MathJsChain<T>,
-      a2: MathCollection
+      a2: MathCollection,
     ): MathJsChain<T>
 
     /**
@@ -6004,7 +6007,7 @@ declare namespace math {
      */
     setUnion<T extends MathCollection>(
       this: MathJsChain<T>,
-      a2: MathCollection
+      a2: MathCollection,
     ): MathJsChain<T>
 
     /*************************************************************************
@@ -6016,7 +6019,7 @@ declare namespace math {
      * approximations for different intervals of x.
      */
     erf<T extends number | MathCollection>(
-      this: MathJsChain<T>
+      this: MathJsChain<T>,
     ): MathJsChain<NoLiteralType<T>>
 
     /*************************************************************************
@@ -6112,7 +6115,7 @@ declare namespace math {
     quantileSeq(
       A: MathJsChain<MathCollection>,
       prob: number | BigNumber | MathArray,
-      sorted?: boolean
+      sorted?: boolean,
     ): MathJsChain<number | BigNumber | Unit | MathArray>
 
     /**
@@ -6134,7 +6137,7 @@ declare namespace math {
     std(
       this: MathJsChain<number[]>,
       dim?: number,
-      normalization?: 'unbiased' | 'uncorrected' | 'biased'
+      normalization?: 'unbiased' | 'uncorrected' | 'biased',
     ): MathJsChain<number>
 
     /**
@@ -6155,7 +6158,7 @@ declare namespace math {
     std(
       this: MathJsChain<MathCollection>,
       dimension?: number,
-      normalization?: 'unbiased' | 'uncorrected' | 'biased'
+      normalization?: 'unbiased' | 'uncorrected' | 'biased',
     ): MathJsChain<number[]>
 
     /**
@@ -6165,7 +6168,7 @@ declare namespace math {
      */
     std(
       this: MathJsChain<MathCollection>,
-      normalization: 'unbiased' | 'uncorrected' | 'biased'
+      normalization: 'unbiased' | 'uncorrected' | 'biased',
     ): MathJsChain<number>
 
     /**
@@ -6186,7 +6189,7 @@ declare namespace math {
      * @returns The variance
      */
     variance(
-      this: MathJsChain<Array<Array<number | BigNumber | Fraction>>>
+      this: MathJsChain<Array<Array<number | BigNumber | Fraction>>>,
     ): MathJsChain<number>
 
     /**
@@ -6208,12 +6211,12 @@ declare namespace math {
     variance(
       this: MathJsChain<MathCollection>,
       dimension?: number,
-      normalization?: 'unbiased' | 'uncorrected' | 'biased'
+      normalization?: 'unbiased' | 'uncorrected' | 'biased',
     ): MathJsChain<number[]>
 
     variance(
       this: MathJsChain<MathCollection>,
-      normalization: 'unbiased' | 'uncorrected' | 'biased'
+      normalization: 'unbiased' | 'uncorrected' | 'biased',
     ): MathJsChain<number>
 
     /*************************************************************************
@@ -6239,7 +6242,7 @@ declare namespace math {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       options?: FormatOptions | number | ((item: any) => string),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback?: (value: any) => string
+      callback?: (value: any) => string,
     ): MathJsChain<string>
 
     /**
@@ -6256,7 +6259,7 @@ declare namespace math {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       values: any,
       precision?: number,
-      options?: number | object
+      options?: number | object,
     ): MathJsChain<string>
 
     /*************************************************************************
@@ -6390,7 +6393,7 @@ declare namespace math {
     atan2(this: MathJsChain<number>, x: number): MathJsChain<number>
     atan2(
       this: MathJsChain<MathCollection>,
-      x: MathCollection
+      x: MathCollection,
     ): MathJsChain<MathCollection>
 
     /**
@@ -6545,7 +6548,7 @@ declare namespace math {
      */
     to(
       this: MathJsChain<Unit | MathCollection>,
-      unit: Unit | string
+      unit: Unit | string,
     ): MathJsChain<Unit | MathCollection>
 
     /*************************************************************************
@@ -6566,7 +6569,7 @@ declare namespace math {
      */
 
     isInteger(
-      this: MathJsChain<number | BigNumber | Fraction | MathCollection>
+      this: MathJsChain<number | BigNumber | Fraction | MathCollection>,
     ): MathJsChain<boolean>
 
     /**
@@ -6576,7 +6579,7 @@ declare namespace math {
      */
 
     isNaN(
-      this: MathJsChain<number | BigNumber | Fraction | MathCollection | Unit>
+      this: MathJsChain<number | BigNumber | Fraction | MathCollection | Unit>,
     ): MathJsChain<boolean>
 
     /**
@@ -6586,7 +6589,7 @@ declare namespace math {
      */
 
     isNegative(
-      this: MathJsChain<number | BigNumber | Fraction | MathCollection | Unit>
+      this: MathJsChain<number | BigNumber | Fraction | MathCollection | Unit>,
     ): MathJsChain<boolean>
 
     /**
@@ -6604,7 +6607,7 @@ declare namespace math {
      */
 
     isPositive(
-      this: MathJsChain<number | BigNumber | Fraction | MathCollection | Unit>
+      this: MathJsChain<number | BigNumber | Fraction | MathCollection | Unit>,
     ): MathJsChain<boolean>
 
     /**
@@ -6614,7 +6617,7 @@ declare namespace math {
      */
 
     isPrime(
-      this: MathJsChain<number | BigNumber | MathCollection>
+      this: MathJsChain<number | BigNumber | MathCollection>,
     ): MathJsChain<boolean>
 
     /**
@@ -6626,7 +6629,7 @@ declare namespace math {
     isZero(
       this: MathJsChain<
         number | BigNumber | Fraction | MathCollection | Unit | Complex
-      >
+      >,
     ): MathJsChain<boolean>
 
     /**

@@ -131,12 +131,12 @@ Basic usage examples
   assert.deepStrictEqual(math.add(4, [5, 6]), [9, 10]) // number + Array
   assert.deepStrictEqual(
     math.multiply(math.unit('5 mm'), 3),
-    math.unit('15 mm')
+    math.unit('15 mm'),
   ) // Unit * number
   assert.deepStrictEqual(math.subtract([2, 3, 4], 5), [-3, -2, -1]) // Array - number
   assert.deepStrictEqual(
     math.add(math.matrix([2, 3]), [4, 5]),
-    math.matrix([6, 8])
+    math.matrix([6, 8]),
   ) // Matrix + Array
 
   // narrowed type inference
@@ -157,11 +157,11 @@ Bignumbers examples
   {
     assert.deepStrictEqual(
       math.add(math.bignumber(0.1), math.bignumber(0.2)),
-      math.bignumber(0.3)
+      math.bignumber(0.3),
     )
     assert.deepStrictEqual(
       math.divide(math.bignumber(0.3), math.bignumber(0.2)),
-      math.bignumber(1.5)
+      math.bignumber(1.5),
     )
   }
 }
@@ -231,7 +231,7 @@ Chaining examples
       .filter(math.isInteger)
       .filter((n) => n !== 1000)
       .done(),
-    [2, 3]
+    [2, 3],
   )
 
   const r = math.chain(-0.483).round([0, 1, 2]).floor().add(0.52).fix(1).done()
@@ -239,10 +239,10 @@ Chaining examples
   assert.deepStrictEqual(r, [0.5, -0.4, -0.4])
 
   expectTypeOf(
-    math.chain('x + y').parse().resolve({ x: 1 }).done()
+    math.chain('x + y').parse().resolve({ x: 1 }).done(),
   ).toMatchTypeOf<MathNode>()
   expectTypeOf(
-    math.chain('x + y').parse().resolve().done()
+    math.chain('x + y').parse().resolve().done(),
   ).toMatchTypeOf<MathNode>()
 
   // bignum
@@ -292,8 +292,8 @@ Chaining examples
     math.chain(
       math.createUnit({
         fresnel: '1234',
-      })
-    )
+      }),
+    ),
   ).toMatchTypeOf<MathJsChain<Unit>>()
 
   // fraction
@@ -377,7 +377,7 @@ Chaining examples
     MathJsChain<MathNode>
   >()
   expectTypeOf(
-    math.chain([math.parse('1 + 1'), math.parse('1 + 1')]).resolve({})
+    math.chain([math.parse('1 + 1'), math.parse('1 + 1')]).resolve({}),
   ).toMatchTypeOf<MathJsChain<MathNode[]>>()
 
   // derivative
@@ -392,7 +392,7 @@ Chaining examples
         [1, 2],
         [3, 4],
       ])
-      .lsolve([1, 2])
+      .lsolve([1, 2]),
   ).toMatchTypeOf<MathJsChain<MathArray>>()
   expectTypeOf(
     math
@@ -400,9 +400,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .lsolve([1, 2])
+      .lsolve([1, 2]),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   // lup
@@ -412,7 +412,7 @@ Chaining examples
         [1, 2],
         [3, 4],
       ])
-      .lup()
+      .lup(),
   ).toMatchTypeOf<MathJsChain<LUDecomposition>>()
   expectTypeOf(
     math
@@ -420,9 +420,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .lup()
+      .lup(),
   ).toMatchTypeOf<MathJsChain<LUDecomposition>>()
 
   // lusolve
@@ -432,9 +432,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .lusolve(math.matrix([1, 2]))
+      .lusolve(math.matrix([1, 2])),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   expectTypeOf(
@@ -443,9 +443,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .lusolve([1, 2])
+      .lusolve([1, 2]),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   expectTypeOf(
@@ -454,7 +454,7 @@ Chaining examples
         [1, 2],
         [3, 4],
       ])
-      .lusolve(math.matrix([1, 2]))
+      .lusolve(math.matrix([1, 2])),
   ).toMatchTypeOf<MathJsChain<MathArray>>()
 
   expectTypeOf(
@@ -463,7 +463,7 @@ Chaining examples
         [1, 2],
         [3, 4],
       ])
-      .lusolve([1, 2])
+      .lusolve([1, 2]),
   ).toMatchTypeOf<MathJsChain<MathArray>>()
 
   // qr
@@ -473,7 +473,7 @@ Chaining examples
         [1, 2],
         [3, 4],
       ])
-      .qr()
+      .qr(),
   ).toMatchTypeOf<MathJsChain<QRDecomposition>>()
   expectTypeOf(
     math
@@ -481,9 +481,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .qr()
+      .qr(),
   ).toMatchTypeOf<MathJsChain<QRDecomposition>>()
 
   // rationalize
@@ -509,9 +509,9 @@ Chaining examples
         math.sparse([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .slu(2, 0.5)
+      .slu(2, 0.5),
   ).toMatchTypeOf<MathJsChain<SLUDecomposition>>()
 
   // usolve
@@ -521,7 +521,7 @@ Chaining examples
         [1, 2],
         [3, 4],
       ])
-      .usolve([1, 2])
+      .usolve([1, 2]),
   ).toMatchTypeOf<MathJsChain<MathArray>>()
   expectTypeOf(
     math
@@ -529,9 +529,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .usolve([1, 2])
+      .usolve([1, 2]),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   // abs
@@ -552,9 +552,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .abs()
+      .abs(),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
   expectTypeOf(math.chain(math.unit('furlong')).abs()).toMatchTypeOf<
     MathJsChain<Unit>
@@ -568,8 +568,8 @@ Chaining examples
       math.matrix([
         [1, 2],
         [3, 4],
-      ])
-    )
+      ]),
+    ),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   // apply
@@ -595,10 +595,10 @@ Chaining examples
           math.matrix([
             [1, 2],
             [3, 4],
-          ])
+          ]),
         )
         .cbrt(),
-    TypeError
+    TypeError,
   )
 
   // ceil
@@ -655,10 +655,10 @@ Chaining examples
           math.matrix([
             [1, 2],
             [3, 4],
-          ])
+          ]),
         )
         .cube(),
-    TypeError
+    TypeError,
   )
 
   expectTypeOf(math.chain(math.unit('furlong')).cube()).toMatchTypeOf<
@@ -667,7 +667,7 @@ Chaining examples
 
   // divide
   expectTypeOf(
-    math.chain(math.unit('furlong')).divide(math.unit('femtosecond'))
+    math.chain(math.unit('furlong')).divide(math.unit('femtosecond')),
   ).toMatchTypeOf<MathJsChain<number | Unit>>()
   expectTypeOf(math.chain(math.unit('furlong')).divide(6)).toMatchTypeOf<
     MathJsChain<Unit>
@@ -687,9 +687,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .dotDivide(2)
+      .dotDivide(2),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   // dotMultiply
@@ -702,9 +702,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .dotMultiply(2)
+      .dotMultiply(2),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   // dotPow
@@ -717,9 +717,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .dotPow(2)
+      .dotPow(2),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   // exp
@@ -734,10 +734,10 @@ Chaining examples
           math.matrix([
             [1, 2],
             [3, 4],
-          ])
+          ]),
         )
         .exp(),
-    TypeError
+    TypeError,
   )
 
   // expm1
@@ -753,10 +753,10 @@ Chaining examples
           math.matrix([
             [1, 2],
             [3, 4],
-          ])
+          ]),
         )
         .expm1(),
-    TypeError
+    TypeError,
   )
 
   // gcd
@@ -789,13 +789,13 @@ Chaining examples
   // hypot
   expectTypeOf(math.chain([1, 2]).hypot()).toMatchTypeOf<MathJsChain<number>>()
   expectTypeOf(
-    math.chain([math.bignumber(1), math.bignumber(1)]).hypot()
+    math.chain([math.bignumber(1), math.bignumber(1)]).hypot(),
   ).toMatchTypeOf<MathJsChain<BigNumber>>()
 
   // lcm
   expectTypeOf(math.chain(1).lcm(2)).toMatchTypeOf<MathJsChain<number>>()
   expectTypeOf(
-    math.chain(math.bignumber(1)).lcm(math.bignumber(2))
+    math.chain(math.bignumber(1)).lcm(math.bignumber(2)),
   ).toMatchTypeOf<MathJsChain<BigNumber>>()
   expectTypeOf(math.chain([1, 2]).lcm([3, 4])).toMatchTypeOf<
     MathJsChain<MathArray>
@@ -806,20 +806,20 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
       .lcm(
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
-      )
+        ]),
+      ),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   // log
   expectTypeOf(math.chain(1).log(2)).toMatchTypeOf<MathJsChain<number>>()
   expectTypeOf(
-    math.chain(math.bignumber(1)).log(math.bignumber(2))
+    math.chain(math.bignumber(1)).log(math.bignumber(2)),
   ).toMatchTypeOf<MathJsChain<BigNumber>>()
 
   // log10
@@ -836,9 +836,9 @@ Chaining examples
         math.matrix([
           [1, 2],
           [3, 4],
-        ])
+        ]),
       )
-      .log10()
+      .log10(),
   ).toMatchTypeOf<MathJsChain<Matrix>>()
 
   expectTypeOf(math.chain([1, 2]).count()).toMatchTypeOf<MathJsChain<number>>()
@@ -883,7 +883,7 @@ Simplify examples
           associative: true,
         },
       },
-    }
+    },
   )
 
   math.simplify('0.4 * x', [])
@@ -995,7 +995,7 @@ Parenthesis examples
   const math = create(all, {})
 
   expectTypeOf(
-    new math.ParenthesisNode(new math.ConstantNode(3))
+    new math.ParenthesisNode(new math.ConstantNode(3)),
   ).toMatchTypeOf<ParenthesisNode<ConstantNode>>()
 }
 
@@ -1106,24 +1106,24 @@ Transform examples
     const myTransform1 = (node: MathNode): OperatorNode<'+', 'add'> =>
       new OperatorNode('+', 'add', [node, new ConstantNode(1)])
     const myTransform2 = (
-      node: OperatorNode<'+', 'add'>
+      node: OperatorNode<'+', 'add'>,
     ): OperatorNode<'-', 'subtract'> =>
       new OperatorNode('-', 'subtract', [node, new ConstantNode(5)])
 
     expectTypeOf(
-      math.parse('sqrt(3^2 + 4^2)').transform(myTransform1)
+      math.parse('sqrt(3^2 + 4^2)').transform(myTransform1),
     ).toMatchTypeOf<OperatorNode<'+', 'add', MathNode[]>>()
 
     assert.deepStrictEqual(
       math.parse('sqrt(3^2 + 4^2)').transform(myTransform1).toString(),
-      'sqrt(3 ^ 2 + 4 ^ 2) + 1'
+      'sqrt(3 ^ 2 + 4 ^ 2) + 1',
     )
 
     expectTypeOf(
       math
         .parse('sqrt(3^2 + 4^2)')
         .transform(myTransform1)
-        .transform(myTransform2)
+        .transform(myTransform2),
     ).toMatchTypeOf<OperatorNode<'-', 'subtract', MathNode[]>>()
 
     assert.deepStrictEqual(
@@ -1132,7 +1132,7 @@ Transform examples
         .transform(myTransform1)
         .transform(myTransform2)
         .toString(),
-      'sqrt(3 ^ 2 + 4 ^ 2) + 1 - 5'
+      'sqrt(3 ^ 2 + 4 ^ 2) + 1 - 5',
     )
   }
 }
@@ -1218,7 +1218,7 @@ Matrices examples
       math.map([1, 2, 3], function (value) {
         return value * value
       }),
-      [1, 4, 9]
+      [1, 4, 9],
     )
   }
 
@@ -1228,11 +1228,11 @@ Matrices examples
       math.filter([6, -2, -1, 4, 3], function (x) {
         return x > 0
       }),
-      [6, 4, 3]
+      [6, 4, 3],
     )
     assert.deepStrictEqual(
       math.filter(['23', 'foo', '100', '55', 'bar'], /\d+/),
-      ['23', '100', '55']
+      ['23', '100', '55'],
     )
   }
 
@@ -1263,8 +1263,8 @@ Matrices examples
         [
           [math.complex(2, 0), math.complex(2, 0)],
           [math.complex(0, 0), math.complex(0, 0)],
-        ]
-      )
+        ],
+      ),
     )
     assert.ok(
       math.deepEqual(
@@ -1272,13 +1272,13 @@ Matrices examples
           math.matrix([
             [1, 0],
             [1, 0],
-          ])
+          ]),
         ),
         math.matrix([
           [math.complex(2, 0), math.complex(2, 0)],
           [math.complex(0, 0), math.complex(0, 0)],
-        ])
-      )
+        ]),
+      ),
     )
     assert.ok(
       math.deepEqual(
@@ -1289,8 +1289,8 @@ Matrices examples
         [
           [math.complex(1, 0), math.complex(0, 0)],
           [math.complex(1, 0), math.complex(0, 0)],
-        ]
-      )
+        ],
+      ),
     )
     assert.ok(
       math.deepEqual(
@@ -1298,13 +1298,13 @@ Matrices examples
           math.matrix([
             [2, 2],
             [0, 0],
-          ])
+          ]),
         ),
         math.matrix([
           [math.complex(1, 0), math.complex(0, 0)],
           [math.complex(1, 0), math.complex(0, 0)],
-        ])
-      )
+        ]),
+      ),
     )
   }
 
@@ -1319,8 +1319,8 @@ Matrices examples
         [
           [-2, 1],
           [1.5, -0.5],
-        ]
-      )
+        ],
+      ),
     )
     assert.ok(
       math.deepEqual(
@@ -1328,13 +1328,13 @@ Matrices examples
           math.matrix([
             [1, 2],
             [3, 4],
-          ])
+          ]),
         ),
         math.matrix([
           [-2, 1],
           [1.5, -0.5],
-        ])
-      )
+        ]),
+      ),
     )
     assert.ok(math.deepEqual(math.pinv(4), 0.25))
   }
@@ -1436,19 +1436,19 @@ Rotation matrices examples
   assert.throws(
     // @ts-expect-error ... verify format parameter is either null, 'sparse' or 'dense'
     () => math.rotationMatrix(math.pi, [1, 1, 0], 'format'),
-    TypeError
+    TypeError,
   )
 
   assert.throws(
     // @ts-expect-error ... verify theta is number
     () => math.rotationMatrix('pi'),
-    TypeError
+    TypeError,
   )
 
   assert.throws(
     // @ts-expect-error ... verify axis is of MathColletion Type
     () => math.rotationMatrix(math.pi, 1),
-    TypeError
+    TypeError,
   )
 }
 
@@ -1472,7 +1472,7 @@ Units examples
   math.createUnit(
     'testunit',
     { definition: '0.555556 kelvin', offset: 459.67 },
-    { override: true }
+    { override: true },
   )
   math.createUnit('knot', {
     definition: '0.514444 m/s',
@@ -1481,7 +1481,7 @@ Units examples
   math.createUnit(
     'knot',
     { definition: '0.514444 m/s', aliases: ['knots', 'kt', 'kts'] },
-    { override: true }
+    { override: true },
   )
   math.createUnit(
     'knot',
@@ -1490,7 +1490,7 @@ Units examples
       aliases: ['knots', 'kt', 'kts'],
       prefixes: 'long',
     },
-    { override: true }
+    { override: true },
   )
   math.createUnit(
     {
@@ -1505,7 +1505,7 @@ Units examples
     },
     {
       override: true,
-    }
+    },
   )
   // use Unit as definition
   math.createUnit('c', { definition: b })
@@ -1556,7 +1556,7 @@ Expression tree examples
   // Filter an expression tree
   const node = math.parse('x^2 + x/4 + 3*y')
   const filtered = node.filter(
-    (node) => isSymbolNode(node) && node.name === 'x'
+    (node) => isSymbolNode(node) && node.name === 'x',
   )
 
   const _arr: string[] = filtered.map((node: MathNode) => node.toString())
@@ -1592,7 +1592,7 @@ Function ceil examples
   assert.strictEqual(math.ceil(3.212, 2), 3.22)
   assert.deepStrictEqual(
     math.ceil(3.212, math.bignumber(2)),
-    math.bignumber(3.22)
+    math.bignumber(3.22),
   )
   assert.strictEqual(math.ceil(-4.212, 2), -4.21)
 
@@ -1600,11 +1600,11 @@ Function ceil examples
   assert.deepStrictEqual(math.ceil(math.bignumber(3.212)), math.bignumber(4))
   assert.deepStrictEqual(
     math.ceil(math.bignumber(3.212), 2),
-    math.bignumber(3.22)
+    math.bignumber(3.22),
   )
   assert.deepStrictEqual(
     math.ceil(math.bignumber(3.212), math.bignumber(2)),
-    math.bignumber(3.22)
+    math.bignumber(3.22),
   )
 
   // fraction input
@@ -1612,11 +1612,11 @@ Function ceil examples
   assert.deepStrictEqual(math.ceil(math.fraction(-44, 7)), math.fraction(-6))
   assert.deepStrictEqual(
     math.ceil(math.fraction(44, 7), 2),
-    math.fraction(629, 100)
+    math.fraction(629, 100),
   )
   assert.deepStrictEqual(
     math.ceil(math.fraction(44, 7), math.bignumber(2)),
-    math.fraction(629, 100)
+    math.fraction(629, 100),
   )
 
   // Complex input
@@ -1625,7 +1625,7 @@ Function ceil examples
   assert.deepStrictEqual(math.ceil(c, 1), math.complex(3.3, -2.7))
   assert.deepStrictEqual(
     math.ceil(c, math.bignumber(1)),
-    math.complex(3.3, -2.7)
+    math.complex(3.3, -2.7),
   )
 
   // array input
@@ -1633,7 +1633,7 @@ Function ceil examples
   assert.deepStrictEqual(math.ceil([3.21, 3.82, -4.71], 1), [3.3, 3.9, -4.7])
   assert.deepStrictEqual(
     math.ceil([3.21, 3.82, -4.71], math.bignumber(1)),
-    math.bignumber([3.3, 3.9, -4.7])
+    math.bignumber([3.3, 3.9, -4.7]),
   )
 
   // numeric input, array or matrix of decimals
@@ -1641,7 +1641,7 @@ Function ceil examples
   assert.deepStrictEqual(numCeiled, [6.29, 6.284])
   const bigCeiled: Matrix = math.ceil(
     math.bignumber(6.28318),
-    math.matrix([2, 3])
+    math.matrix([2, 3]),
   )
   assert.deepStrictEqual(bigCeiled, math.matrix(math.bignumber([6.29, 6.284])))
   assert.deepStrictEqual(math.ceil(math.fraction(44, 7), [2, 3]), [
@@ -1668,7 +1668,7 @@ Function fix examples
   assert.strictEqual(math.fix(3.212, 2), 3.21)
   assert.deepStrictEqual(
     math.fix(3.212, math.bignumber(2)),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
   assert.strictEqual(math.fix(-4.212, 2), -4.21)
 
@@ -1676,11 +1676,11 @@ Function fix examples
   assert.deepStrictEqual(math.fix(math.bignumber(3.212)), math.bignumber(3))
   assert.deepStrictEqual(
     math.fix(math.bignumber(3.212), 2),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
   assert.deepStrictEqual(
     math.fix(math.bignumber(3.212), math.bignumber(2)),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
 
   // fraction input
@@ -1688,11 +1688,11 @@ Function fix examples
   assert.deepStrictEqual(math.fix(math.fraction(-44, 7)), math.fraction(-6))
   assert.deepStrictEqual(
     math.fix(math.fraction(44, 7), 2),
-    math.fraction(628, 100)
+    math.fraction(628, 100),
   )
   assert.deepStrictEqual(
     math.fix(math.fraction(44, 7), math.bignumber(2)),
-    math.fraction(628, 100)
+    math.fraction(628, 100),
   )
 
   // Complex input
@@ -1701,7 +1701,7 @@ Function fix examples
   assert.deepStrictEqual(math.fix(c, 1), math.complex(3.2, -2.7))
   assert.deepStrictEqual(
     math.fix(c, math.bignumber(1)),
-    math.complex(3.2, -2.7)
+    math.complex(3.2, -2.7),
   )
 
   // array input
@@ -1709,7 +1709,7 @@ Function fix examples
   assert.deepStrictEqual(math.fix([3.21, 3.82, -4.71], 1), [3.2, 3.8, -4.7])
   assert.deepStrictEqual(
     math.fix([3.21, 3.82, -4.71], math.bignumber(1)),
-    math.bignumber([3.2, 3.8, -4.7])
+    math.bignumber([3.2, 3.8, -4.7]),
   )
 
   // numeric input, array or matrix of decimals
@@ -1717,7 +1717,7 @@ Function fix examples
   assert.deepStrictEqual(numFixed, [6.28, 6.283])
   const bigFixed: Matrix = math.fix(
     math.bignumber(6.28318),
-    math.matrix([2, 3])
+    math.matrix([2, 3]),
   )
   assert.deepStrictEqual(bigFixed, math.matrix(math.bignumber([6.28, 6.283])))
   assert.deepStrictEqual(math.fix(math.fraction(44, 7), [2, 3]), [
@@ -1744,7 +1744,7 @@ Function floor examples
   assert.strictEqual(math.floor(3.212, 2), 3.21)
   assert.deepStrictEqual(
     math.floor(3.212, math.bignumber(2)),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
   assert.strictEqual(math.floor(-4.212, 2), -4.22)
 
@@ -1752,11 +1752,11 @@ Function floor examples
   assert.deepStrictEqual(math.floor(math.bignumber(3.212)), math.bignumber(3))
   assert.deepStrictEqual(
     math.floor(math.bignumber(3.212), 2),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
   assert.deepStrictEqual(
     math.floor(math.bignumber(3.212), math.bignumber(2)),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
 
   // fraction input
@@ -1764,11 +1764,11 @@ Function floor examples
   assert.deepStrictEqual(math.floor(math.fraction(-44, 7)), math.fraction(-7))
   assert.deepStrictEqual(
     math.floor(math.fraction(44, 7), 2),
-    math.fraction(628, 100)
+    math.fraction(628, 100),
   )
   assert.deepStrictEqual(
     math.floor(math.fraction(44, 7), math.bignumber(2)),
-    math.fraction(628, 100)
+    math.fraction(628, 100),
   )
 
   // Complex input
@@ -1777,7 +1777,7 @@ Function floor examples
   assert.deepStrictEqual(math.floor(c, 1), math.complex(3.2, -2.8))
   assert.deepStrictEqual(
     math.floor(c, math.bignumber(1)),
-    math.complex(3.2, -2.8)
+    math.complex(3.2, -2.8),
   )
 
   // array input
@@ -1785,7 +1785,7 @@ Function floor examples
   assert.deepStrictEqual(math.floor([3.21, 3.82, -4.71], 1), [3.2, 3.8, -4.8])
   assert.deepStrictEqual(
     math.floor([3.21, 3.82, -4.71], math.bignumber(1)),
-    math.bignumber([3.2, 3.8, -4.8])
+    math.bignumber([3.2, 3.8, -4.8]),
   )
 
   // numeric input, array or matrix of decimals
@@ -1793,7 +1793,7 @@ Function floor examples
   assert.deepStrictEqual(numFloored, [6.28, 6.283])
   const bigFloored: Matrix = math.floor(
     math.bignumber(6.28318),
-    math.matrix([2, 3])
+    math.matrix([2, 3]),
   )
   assert.deepStrictEqual(bigFloored, math.matrix(math.bignumber([6.28, 6.283])))
   assert.deepStrictEqual(math.floor(math.fraction(44, 7), [2, 3]), [
@@ -1820,7 +1820,7 @@ Function round examples
   assert.strictEqual(math.round(3.212, 2), 3.21)
   assert.deepStrictEqual(
     math.round(3.212, math.bignumber(2)),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
   assert.strictEqual(math.round(-4.212, 2), -4.21)
 
@@ -1828,11 +1828,11 @@ Function round examples
   assert.deepStrictEqual(math.round(math.bignumber(3.212)), math.bignumber(3))
   assert.deepStrictEqual(
     math.round(math.bignumber(3.212), 2),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
   assert.deepStrictEqual(
     math.round(math.bignumber(3.212), math.bignumber(2)),
-    math.bignumber(3.21)
+    math.bignumber(3.21),
   )
 
   // fraction input
@@ -1840,11 +1840,11 @@ Function round examples
   assert.deepStrictEqual(math.round(math.fraction(-44, 7)), math.fraction(-6))
   assert.deepStrictEqual(
     math.round(math.fraction(44, 7), 2),
-    math.fraction(629, 100)
+    math.fraction(629, 100),
   )
   assert.deepStrictEqual(
     math.round(math.fraction(44, 7), math.bignumber(2)),
-    math.fraction(629, 100)
+    math.fraction(629, 100),
   )
 
   // Complex input
@@ -1853,7 +1853,7 @@ Function round examples
   assert.deepStrictEqual(math.round(c, 1), math.complex(3.2, -2.7))
   assert.deepStrictEqual(
     math.round(c, math.bignumber(1)),
-    math.complex(3.2, -2.7)
+    math.complex(3.2, -2.7),
   )
 
   // array input
@@ -1861,7 +1861,7 @@ Function round examples
   assert.deepStrictEqual(math.round([3.21, 3.82, -4.71], 1), [3.2, 3.8, -4.7])
   assert.deepStrictEqual(
     math.round([3.21, 3.82, -4.71], math.bignumber(1)),
-    math.bignumber([3.2, 3.8, -4.7])
+    math.bignumber([3.2, 3.8, -4.7]),
   )
 
   // numeric input, array or matrix of decimals
@@ -1869,7 +1869,7 @@ Function round examples
   assert.deepStrictEqual(numRounded, [6.28, 6.283])
   const bigRounded: Matrix = math.round(
     math.bignumber(6.28318),
-    math.matrix([2, 3])
+    math.matrix([2, 3]),
   )
   assert.deepStrictEqual(bigRounded, math.matrix(math.bignumber([6.28, 6.283])))
   assert.deepStrictEqual(math.round(math.fraction(44, 7), [2, 3]), [
@@ -1890,7 +1890,7 @@ Function round examples
     new math.OperatorNode('/', 'divide', [
       new math.ConstantNode(3),
       new math.SymbolNode('x'),
-    ])
+    ]),
   ).toMatchTypeOf<OperatorNode<'/', 'divide', (ConstantNode | SymbolNode)[]>>()
 
   expectTypeOf(new math.ConstantNode(1).clone()).toMatchTypeOf<ConstantNode>()
@@ -1898,25 +1898,25 @@ Function round examples
     new math.OperatorNode('*', 'multiply', [
       new math.ConstantNode(3),
       new math.SymbolNode('x'),
-    ]).clone()
+    ]).clone(),
   ).toMatchTypeOf<
     OperatorNode<'*', 'multiply', (ConstantNode | SymbolNode)[]>
   >()
 
   expectTypeOf(
-    new math.ConstantNode(1).cloneDeep()
+    new math.ConstantNode(1).cloneDeep(),
   ).toMatchTypeOf<ConstantNode>()
   expectTypeOf(
     new math.OperatorNode('+', 'unaryPlus', [
       new math.ConstantNode(3),
       new math.SymbolNode('x'),
-    ]).cloneDeep()
+    ]).cloneDeep(),
   ).toMatchTypeOf<
     OperatorNode<'+', 'unaryPlus', (ConstantNode | SymbolNode)[]>
   >()
 
   expectTypeOf(
-    math.clone(new math.ConstantNode(1))
+    math.clone(new math.ConstantNode(1)),
   ).toMatchTypeOf<ConstantNode>()
 }
 
@@ -1954,7 +1954,7 @@ declare module 'mathjs' {
       testFun,
       value: 10,
     },
-    {}
+    {},
   )
 
   math.testFun()
@@ -1965,7 +1965,7 @@ declare module 'mathjs' {
     math.import({
       myvalue: 42,
       myFunc: (name: string) => `myFunc ${name}`,
-    })
+    }),
   ).toMatchTypeOf<void>()
 
   expectTypeOf(
@@ -1976,8 +1976,8 @@ declare module 'mathjs' {
       },
       {
         override: true,
-      }
-    )
+      },
+    ),
   ).toMatchTypeOf<void>()
 
   expectTypeOf(
@@ -1987,8 +1987,8 @@ declare module 'mathjs' {
       },
       {
         silent: true,
-      }
-    )
+      },
+    ),
   ).toMatchTypeOf<void>()
 
   expectTypeOf(
@@ -1998,14 +1998,14 @@ declare module 'mathjs' {
       },
       {
         wrap: true,
-      }
-    )
+      },
+    ),
   ).toMatchTypeOf<void>()
 
   expectTypeOf(
     math.import({
       myvalue4: 42,
-    })
+    }),
   ).toMatchTypeOf<void>()
 
   expectTypeOf(
@@ -2016,7 +2016,7 @@ declare module 'mathjs' {
       {
         myFunc2: (name: string) => `myFunc2 ${name}`,
       },
-    ])
+    ]),
   ).toMatchTypeOf<void>()
 }
 
@@ -2073,7 +2073,7 @@ Factory Test
       divideDependencies,
       formatDependencies,
     },
-    config
+    config,
   )
 
   // Use the created functions
@@ -2316,7 +2316,7 @@ toTex examples
   expectTypeOf(
     math.parse('a/b').toTex({
       a: '123',
-    })
+    }),
   ).toMatchTypeOf<string>()
 }
 
@@ -2329,11 +2329,11 @@ Resolve examples
   expectTypeOf(math.resolve('x + y')).toMatchTypeOf<MathNode>()
   expectTypeOf(math.resolve(math.parse('x + y'))).toMatchTypeOf<MathNode>()
   expectTypeOf(
-    math.resolve(math.parse('x + y'), { x: 0 })
+    math.resolve(math.parse('x + y'), { x: 0 }),
   ).toMatchTypeOf<MathNode>()
   expectTypeOf(math.resolve('x + y', { x: 0 })).toMatchTypeOf<MathNode>()
   expectTypeOf(
-    math.resolve([math.parse('x + y'), 'x*x'], { x: 0 })
+    math.resolve([math.parse('x + y'), 'x*x'], { x: 0 }),
   ).toMatchTypeOf<MathNode[]>()
   expectTypeOf(math.resolve(math.matrix(['x', 'y']))).toMatchTypeOf<Matrix>()
 }
