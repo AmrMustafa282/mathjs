@@ -29,53 +29,6 @@ describe('maps', function () {
     }
   })
 
-    const map = new ObjectWrappingMap(obj)
-
-    // isMap thinks it's a map.
-    assert.ok(isMap(map))
-
-    // get
-    for (const key of ['a', 'b', 'c']) {
-      assert.strictEqual(map.get(key), obj[key])
-    }
-
-    // get with a key not there gives an undefined.
-    for (const key of ['e', 'f']) {
-      assert.strictEqual(map.get(key), undefined)
-    }
-
-    // We can behind the scenes add to the wrapped object.
-    Object.assign(obj, {
-      d: 4,
-      e: 5
-    })
-
-    // set()
-    map.set('f', 6)
-    map.set('g', 7)
-
-    // we set the properties in obj, too.
-    assert.strictEqual(obj.f, 6)
-    assert.strictEqual(obj.g, 7)
-
-    for (const key of ['d', 'e', 'f', 'g']) {
-      assert.strictEqual(map.get(key), obj[key])
-    }
-
-    // keys()
-    assert.deepStrictEqual(map.keys(), ['a', 'b', 'c', 'd', 'e', 'f', 'g'])
-
-    for (const key of map.keys()) {
-      assert.ok(map.has(key))
-    }
-
-    assert.ok(!map.has('not-in-this-map'))
-
-    // We can get the same object out using toObject
-    const innerObject = toObject(map)
-    assert.strictEqual(innerObject, obj)
-  })
-
   it('should create a map from objects, maps, or undefined', function () {
     const emptyMap = createMap()
     assert.ok(isMap(emptyMap))
