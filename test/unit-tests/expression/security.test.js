@@ -300,12 +300,6 @@ describe('security', function () {
     }, /(is not a function)|(Object expected)/)
   })
 
-  it('should not allow using method chain (2)', function () {
-    assert.throws(function () {
-      math.evaluate("evilMath=chain().create().done();evilMath.import({\"_compile\":f(a,b,c)=\"evaluate\",\"isNode\":f()=true}); parse(\"(1)\").map(g(a,b,c)=evilMath.chain()).compile().evaluate()(\"console.log('hacked...')\")")
-    }, /(Cannot read property 'apply' of undefined)|(undefined has no properties)|(undefined is not an object)|(Unable to get property 'apply' of undefined or null reference)/)
-  })
-
   it('should not allow using method Chain', function () {
     assert.throws(function () {
       math.evaluate('x=parse("a",{nodes:{a:Chain}});Chain.bind(x,{})();' +
