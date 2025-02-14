@@ -1,11 +1,11 @@
 import { isSymbolNode } from '../../../utils/is.js'
-import { PartitionedMap } from '../../../utils/map.js'
+import { createSubScope } from '../../../utils/scope.js'
 
 /**
  * Compile an inline expression like "x > 0"
  * @param {Node} expression
  * @param {Object} math
- * @param {Map} scope
+ * @param {Object} scope
  * @return {function} Returns a function with one argument which fills in the
  *                    undefined variable (like "x") and evaluates the expression
  */
@@ -23,11 +23,10 @@ export function compileInlineExpression (expression, math, scope) {
 
   // create a test function for this equation
   const name = symbol.name // variable name
-  const argsScope = new Map()
-  const subScope = new PartitionedMap(scope, argsScope, new Set([name]))
+  const subScope = createSubScope(scope)
   const eq = expression.compile()
   return function inlineExpression (x) {
-    argsScope.set(name, x)
+    subScope.set(name, x)
     return eq.evaluate(subScope)
   }
 }

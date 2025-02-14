@@ -1,4 +1,4 @@
-import { ObjectWrappingMap, PartitionedMap } from './map.js'
+import { createEmptyMap, assign } from './map.js'
 
 /**
  * Create a new scope which can access the parent scope,
@@ -10,13 +10,13 @@ import { ObjectWrappingMap, PartitionedMap } from './map.js'
  * the remaining `args`.
  *
  * @param {Map} parentScope
- * @param  {Object} args
- * @returns {PartitionedMap}
+ * @param  {...any} args
+ * @returns {Map}
  */
-export function createSubScope (parentScope, args) {
-  return new PartitionedMap(
-    parentScope,
-    new ObjectWrappingMap(args),
-    new Set(Object.keys(args))
-  )
+export function createSubScope (parentScope, ...args) {
+  if (typeof parentScope.createSubScope === 'function') {
+    return assign(parentScope.createSubScope(), ...args)
+  }
+
+  return assign(createEmptyMap(), parentScope, ...args)
 }
